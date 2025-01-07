@@ -22,3 +22,5 @@ from sklearn.metrics import accuracy_score
 y_pred = knn_model.predict(x_val)
 accuracy = accuracy_score(y_val, y_pred)
 print(f"Accuracy on the test set: {accuracy}")
+import joblib
+joblib.dump(DecisionTreeClassifier, 'DecisionTreeClasifier.joblib')
