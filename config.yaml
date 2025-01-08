@@ -1,2 +1,2 @@
-path: "DecisionTreeClasifier.joblib
+path: "DecisionTreeClasifier.joblib"
 features: ['spread1', 'PPE']
