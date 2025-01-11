@@ -16,7 +16,7 @@ sns.pairplot(df)
 plt.show()
 
 # Input and Output features
-input_features = ['MDVP:Fo(Hz)', 'MDVP:Flo(Hz)']
+input_features = ['spread1', 'PPE']
 output_feature = 'status'
 print("Input features:", input_features)
 print("Output feature:", output_feature)
