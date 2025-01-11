@@ -1,24 +1,46 @@
 import pandas as pd
 df = pd.read_csv('/parkinsons.csv')
-df = df.dropna()
+print(df.head())
 import seaborn as sns
-sns.pairplot(df, hue= "status"  )
-selected_feutures = ['spread1', 'PPE']
-target = "status"
-x = df[selected_feutures]
-y = df[target]
+import matplotlib.pyplot as plt
+sns.pairplot(df)
+plt.show()
+input_features = ['MDVP:Fo(Hz)', 'MDVP:Flo(Hz)']
+output_feature = 'status'
+print("Input features:", input_features)
+print("Output feature:", output_feature)
+# print(idk)
 from sklearn.preprocessing import MinMaxScaler
 scaler = MinMaxScaler()
-x_scaled = scaler.fit_transform(x)
-x_scaled = pd.DataFrame(x_scaled, columns=x.columns)
+df[input_features] = scaler.fit_transform(df[input_features])
+print(df.head())
+# print(idk)
+# prompt: Divide the dataset into a training set and a validation set.
+
 from sklearn.model_selection import train_test_split
-x_train, x_val, y_train, y_val = train_test_split(x_scaled, y, test_size=0.2, random_state=42)
-from sklearn.tree import DecisionTreeClassifier
-knn_model = DecisionTreeClassifier(max_depth = 3 )
-knn_model.fit(x_train, y_train)
+
+# Assuming 'df' is your DataFrame and 'input_features', 'output_feature' are defined
+X = df[input_features]
+y = df[output_feature]
+
+# Split the data into training and validation sets (e.g., 80% train, 20% validation)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42) #random_state for reproducibility
+
+from sklearn.linear_model import LogisticRegression
+
+# Initialize the model (Logistic Regression in this case, as suggested by the paper)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+# Make predictions on the validation set
+y_pred = model.predict(X_val)
+
+# Evaluate the accuracy
 from sklearn.metrics import accuracy_score
-y_pred = knn_model.predict(x_val)
 accuracy = accuracy_score(y_val, y_pred)
-print(f"Accuracy on the test set: {accuracy}")
+print(f"Accuracy: {accuracy}")
+
+if accuracy < 0.8:
+    print("Accuracy is below the target of 0.8. Consider trying different features, models, or hyperparameters.")
 import joblib
 joblib.dump(knn_model, 'DecisionTreeClassifier.joblib')
