@@ -1,14 +1,14 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 import joblib
 
 # Load the dataset
-df = pd.read_csv('/parkinsons.csv')
+df = pd.read_csv('/path/to/parkinsons.csv')  # Adjust path as needed
 print(df.head())
 
 # Visualize data distribution
@@ -21,6 +21,11 @@ output_feature = 'status'
 print("Input features:", input_features)
 print("Output feature:", output_feature)
 
+# Ensure the input features are in the dataset
+missing_features = [feature for feature in input_features if feature not in df.columns]
+if missing_features:
+    print(f"Warning: Missing features in dataset: {', '.join(missing_features)}")
+
 # Normalize the input features
 scaler = MinMaxScaler()
 df[input_features] = scaler.fit_transform(df[input_features])
@@ -32,7 +37,7 @@ y = df[output_feature]
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Initialize and train the Logistic Regression model
-model = LogisticRegression()
+model = LogisticRegression(max_iter=1000)  # Increase if convergence warnings occur
 model.fit(X_train, y_train)
 
 # Make predictions on the validation set
@@ -48,3 +53,5 @@ if accuracy < 0.8:
 
 # Save the trained model
 joblib.dump(model, 'LogisticRegressionModel.joblib')
+
+
