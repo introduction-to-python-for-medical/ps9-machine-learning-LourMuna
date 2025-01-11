@@ -8,7 +8,7 @@ from sklearn.metrics import accuracy_score
 import joblib
 
 # Load the dataset
-df = pd.read_csv('/path/to/parkinsons.csv')  # Adjust path as needed
+df = pd.read_csv('/parkinsons.csv')  # Adjust path as needed
 print(df.head())
 
 # Visualize data distribution
