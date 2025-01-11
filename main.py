@@ -1,5 +1,5 @@
 import pandas as pd
-df = pd.read_csv('/content/parkinsons.csv')
+df = pd.read_csv('/parkinsons.csv')
 df = df.dropna()
 import seaborn as sns
 sns.pairplot(df, hue= "status"  )
