@@ -1,2 +1,2 @@
-path: "DecisionTreeClasifier.joblib"
+path: "LogisticRegressionModel.joblib"
 features: ['spread1', 'PPE']
